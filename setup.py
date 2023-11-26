@@ -4,7 +4,7 @@ setup(
     author="Amir Motamedi",
     author_email="seyedamirhosein.motamedi@charite.de",
     name='oct-vol',
-    version='0.1.0',
+    version='0.2.0',
     description="A package to read, write, and crop OCT .vol files.",
     long_description=open("README.md").read(),
     long_description_content_type='text/markdown',

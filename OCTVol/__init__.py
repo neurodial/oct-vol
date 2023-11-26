@@ -7,6 +7,6 @@ It provides streamlined functions to read, write, and crop.
 
 """
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 from .OCTVol import OCTVol

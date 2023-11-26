@@ -6,6 +6,11 @@ import numpy as np
 import datetime
 
 
+class NotAVolumetricOCTError(Exception):
+    def __init__(self, message="Only a volumetric OCT scan is accepted."):
+        super().__init__(message)
+
+
 class OCTVol:
     """
     The OCTVol object contains an optical coherence tomography (OCT) image with its information read from Heidelberg
@@ -292,6 +297,11 @@ class OCTVol:
         None
             This method operates in-place, modifying the OCTVol object directly to store the result.
 
+        Raises
+        ------
+        NotAVolumetricOCTError
+            If the OCTVol object is not from a volumetric scan (parallel B scans), e.g. ring or star scans.
+
         Notes
         -----
         When a 6mm crop is selected, the grid type is updated to ETDRS, and the sector parameters are reset accordingly.
@@ -299,6 +309,9 @@ class OCTVol:
         It allows users to easily determine whether they are within the ETDRS map or not.
 
         """
+        if self.header['scan_pattern'] not in [3, 4]:
+            raise NotAVolumetricOCTError("Only volumetric OCT scans can be cropped.")
+
         # Find the position of the fovea (center) on the volume
         slo_volume_angle = np.math.atan((self.b_scan_header['end_y'][0]-self.b_scan_header['end_y'][-1]) / (self.b_scan_header['end_x'][0]-self.b_scan_header['end_x'][-1]))
         if self.b_scan_header['end_x'][-1] > self.b_scan_header['end_x'][0]:
